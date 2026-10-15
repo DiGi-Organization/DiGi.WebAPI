@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 
@@ -79,24 +80,38 @@ namespace DiGi.WebAPI.Classes
 
         /// <summary>
         /// Adds an integer query parameter with automatic URL encoding.
+        /// <para>Formatted with <see cref="CultureInfo.InvariantCulture"/>, because ASP.NET Core binds a query string with it: some cultures (sv-SE, nb-NO, fi-FI) write the negative sign as U+2212, which does not bind.</para>
         /// </summary>
         /// <param name="name">The parameter name.</param>
         /// <param name="value">The integer value to encode.</param>
         /// <returns>The <see cref="UrlBuilder"/> instance for chaining.</returns>
         public UrlBuilder AddParameter(string name, int value)
         {
-            return AddParameter(name, value.ToString());
+            return AddParameter(name, value.ToString(CultureInfo.InvariantCulture));
+        }
+
+        /// <summary>
+        /// Adds a long integer query parameter with automatic URL encoding.
+        /// <para>Formatted with <see cref="CultureInfo.InvariantCulture"/>, as <see cref="AddParameter(string, int)"/>. Without this overload a <see cref="long"/> argument binds to <see cref="AddParameter(string, double)"/> through the implicit conversion and loses precision above 2^53.</para>
+        /// </summary>
+        /// <param name="name">The parameter name.</param>
+        /// <param name="value">The long integer value to encode.</param>
+        /// <returns>The <see cref="UrlBuilder"/> instance for chaining.</returns>
+        public UrlBuilder AddParameter(string name, long value)
+        {
+            return AddParameter(name, value.ToString(CultureInfo.InvariantCulture));
         }
 
         /// <summary>
         /// Adds a double query parameter with automatic URL encoding.
+        /// <para>Formatted with <see cref="CultureInfo.InvariantCulture"/> as the shortest string that round-trips, because ASP.NET Core binds a query string with the invariant culture: under pl-PL <c>50.5</c> would otherwise be sent as <c>50,5</c>, and an endpoint keyed by the exact value silently misses it.</para>
         /// </summary>
         /// <param name="name">The parameter name.</param>
         /// <param name="value">The double value to encode.</param>
         /// <returns>The <see cref="UrlBuilder"/> instance for chaining.</returns>
         public UrlBuilder AddParameter(string name, double value)
         {
-            return AddParameter(name, value.ToString());
+            return AddParameter(name, value.ToString(CultureInfo.InvariantCulture));
         }
 
         /// <summary>
@@ -124,7 +139,7 @@ namespace DiGi.WebAPI.Classes
                 return this;
             }
 
-            List<string> strings = [.. values.Select(x => WebUtility.UrlEncode(x.ToString()))];
+            List<string> strings = [.. values.Select(x => WebUtility.UrlEncode(x.ToString(CultureInfo.InvariantCulture)))];
             if (strings.Count == 0)
             {
                 return this;

@@ -2433,6 +2433,8 @@ The [UrlBuilder](DiGi.WebAPI.Classes.md#DiGi.WebAPI.Classes.UrlBuilder 'DiGi\.We
 
 Adds a double query parameter with automatic URL encoding\.
 
+Formatted with [System\.Globalization\.CultureInfo\.InvariantCulture](https://learn.microsoft.com/en-us/dotnet/api/system.globalization.cultureinfo.invariantculture 'System\.Globalization\.CultureInfo\.InvariantCulture') as the shortest string that round-trips, because ASP.NET Core binds a query string with the invariant culture: under pl-PL `50.5` would otherwise be sent as `50,5`, and an endpoint keyed by the exact value silently misses it.
+
 ```csharp
 public DiGi.WebAPI.Classes.UrlBuilder AddParameter(string name, double value);
 ```
@@ -2460,6 +2462,8 @@ The [UrlBuilder](DiGi.WebAPI.Classes.md#DiGi.WebAPI.Classes.UrlBuilder 'DiGi\.We
 
 Adds an integer query parameter with automatic URL encoding\.
 
+Formatted with [System\.Globalization\.CultureInfo\.InvariantCulture](https://learn.microsoft.com/en-us/dotnet/api/system.globalization.cultureinfo.invariantculture 'System\.Globalization\.CultureInfo\.InvariantCulture'), because ASP.NET Core binds a query string with it: some cultures (sv-SE, nb-NO, fi-FI) write the negative sign as U+2212, which does not bind.
+
 ```csharp
 public DiGi.WebAPI.Classes.UrlBuilder AddParameter(string name, int value);
 ```
@@ -2476,6 +2480,35 @@ The parameter name\.
 `value` [System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
 
 The integer value to encode\.
+
+#### Returns
+[UrlBuilder](DiGi.WebAPI.Classes.md#DiGi.WebAPI.Classes.UrlBuilder 'DiGi\.WebAPI\.Classes\.UrlBuilder')  
+The [UrlBuilder](DiGi.WebAPI.Classes.md#DiGi.WebAPI.Classes.UrlBuilder 'DiGi\.WebAPI\.Classes\.UrlBuilder') instance for chaining\.
+
+<a name='DiGi.WebAPI.Classes.UrlBuilder.AddParameter(string,long)'></a>
+
+## UrlBuilder\.AddParameter\(string, long\) Method
+
+Adds a long integer query parameter with automatic URL encoding\.
+
+Formatted with [System\.Globalization\.CultureInfo\.InvariantCulture](https://learn.microsoft.com/en-us/dotnet/api/system.globalization.cultureinfo.invariantculture 'System\.Globalization\.CultureInfo\.InvariantCulture'), as [AddParameter\(string, int\)](DiGi.WebAPI.Classes.md#DiGi.WebAPI.Classes.UrlBuilder.AddParameter(string,int) 'DiGi\.WebAPI\.Classes\.UrlBuilder\.AddParameter\(string, int\)'). Without this overload a [System\.Int64](https://learn.microsoft.com/en-us/dotnet/api/system.int64 'System\.Int64') argument binds to [AddParameter\(string, double\)](DiGi.WebAPI.Classes.md#DiGi.WebAPI.Classes.UrlBuilder.AddParameter(string,double) 'DiGi\.WebAPI\.Classes\.UrlBuilder\.AddParameter\(string, double\)') through the implicit conversion and loses precision above 2^53.
+
+```csharp
+public DiGi.WebAPI.Classes.UrlBuilder AddParameter(string name, long value);
+```
+#### Parameters
+
+<a name='DiGi.WebAPI.Classes.UrlBuilder.AddParameter(string,long).name'></a>
+
+`name` [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
+
+The parameter name\.
+
+<a name='DiGi.WebAPI.Classes.UrlBuilder.AddParameter(string,long).value'></a>
+
+`value` [System\.Int64](https://learn.microsoft.com/en-us/dotnet/api/system.int64 'System\.Int64')
+
+The long integer value to encode\.
 
 #### Returns
 [UrlBuilder](DiGi.WebAPI.Classes.md#DiGi.WebAPI.Classes.UrlBuilder 'DiGi\.WebAPI\.Classes\.UrlBuilder')  
