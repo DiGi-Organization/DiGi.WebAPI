@@ -28,6 +28,7 @@ namespace DiGi.WebAPI.Classes
         private readonly DateTime? startTimeUtc;
 
         [JsonInclude, JsonPropertyName(nameof(Extensions))]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1859:Use concrete types when possible for improved performance", Justification = "Serialized field: the declared type is part of the serialization contract.")]
         private readonly IList<ExtensionVersionInformation>? extensions;
 
         [JsonInclude, JsonPropertyName(nameof(WebAPIInformationalVersion))]

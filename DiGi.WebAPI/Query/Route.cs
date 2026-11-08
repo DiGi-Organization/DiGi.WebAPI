@@ -27,7 +27,7 @@ namespace DiGi.WebAPI
             // Handle the [controller] token
             if (result.Contains("[controller]"))
             {
-                string controllerName = type.Name.EndsWith("Controller") ? type.Name[..^"Controller".Length] : type.Name;
+                string controllerName = type.Name.EndsWith("Controller", StringComparison.CurrentCulture) ? type.Name[..^"Controller".Length] : type.Name;
 
                 result = result.Replace("[controller]", controllerName.ToLowerInvariant());
             }

@@ -23,6 +23,7 @@ namespace DiGi.WebAPI.Classes
         private readonly bool isApiIgnored;
 
         [JsonInclude, JsonPropertyName(nameof(Parameters))]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1859:Use concrete types when possible for improved performance", Justification = "Serialized field: the declared type is part of the serialization contract.")]
         private readonly IList<EndpointParameterInformation>? parameters;
 
         [JsonInclude, JsonPropertyName(nameof(ReturnTypeName))]

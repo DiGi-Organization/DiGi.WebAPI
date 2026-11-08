@@ -54,7 +54,9 @@ namespace DiGi.WebAPI
 
                     Serilog.Modify.Log(Serilog.Enums.LogEventLevel.Error, "Error content: {ErrorContent}", errorContent);
 
+#pragma warning disable CA2201 // callers catch HttpRequestException as a transport failure; a server answer must stay outside that handler
                     Exception exception = new($"Server returned {httpResponseMessage.StatusCode}. Details: {errorContent}");
+#pragma warning restore CA2201
 
                     throw exception;
                 }
